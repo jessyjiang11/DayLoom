@@ -1,0 +1,16 @@
+# Local agent and editor metadata
+.agents/
+.codex/
+.vscode/
+.idea/
+
+# OS and temporary files
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+
+# Local test artifacts
+prototype/qa.cjs
+prototype/qa-*.png
+

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4efe4" />
+    <title>不秃 · 个人计划原型</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2215%22 fill=%22%236282aa%22/><text x=%2216%22 y=%2221%22 text-anchor=%22middle%22 font-size=%2215%22 fill=%22white%22>不</text></svg>" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="主导航">
+        <div class="brand" aria-label="不秃计划">
+          <span class="brand-mark" aria-hidden="true">不</span>
+          <div>
+            <strong>不秃</strong>
+            <small>计划清楚，脑袋轻松</small>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item is-active" data-screen="today">
+            <span aria-hidden="true">◉</span><span>今日</span>
+          </button>
+          <button class="nav-item" data-screen="goals">
+            <span aria-hidden="true">⌁</span><span>目标</span>
+          </button>
+          <button class="nav-item" data-screen="planner">
+            <span aria-hidden="true">▦</span><span>计划</span>
+          </button>
+          <button class="nav-item" data-screen="review">
+            <span aria-hidden="true">↻</span><span>复盘</span>
+          </button>
+          <button class="nav-item" data-screen="settings">
+            <span aria-hidden="true">⚙</span><span>设置</span>
+          </button>
+        </nav>
+
+        <button class="sidebar-note" id="week-note-button" type="button" title="点击编辑本周一句话">
+          <span class="eyebrow">本周一句话 · 自己写</span>
+          <p id="week-note-text">先做出能用的，再慢慢长成理想的样子。</p>
+          <small>点击编辑</small>
+        </button>
+
+        <div class="local-pill"><span></span>数据仅保存在本机</div>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <form id="quick-capture" class="quick-capture" autocomplete="off">
+            <label class="sr-only" for="quick-title">快速记录计划</label>
+            <span aria-hidden="true">＋</span>
+            <input id="quick-title" name="title" placeholder="想到什么？先记下来…" maxlength="120" />
+            <kbd>Enter</kbd>
+          </form>
+          <button class="icon-button" id="undo-button" aria-label="撤销最近操作" title="撤销最近操作" disabled>↶</button>
+          <button class="date-chip" id="today-chip" title="返回今天"></button>
+        </header>
+
+        <main id="main-content" tabindex="-1"></main>
+      </section>
+    </div>
+
+    <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+    <script type="module" src="./app.mjs"></script>
+  </body>
+</html>
