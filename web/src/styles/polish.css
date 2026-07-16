@@ -1,0 +1,90 @@
+/* Softer surfaces without turning the product into a field of pills. */
+.planner-board,
+.backlog,
+.goals-layout,
+.today-focus,
+.today-timeline,
+.today-rail,
+.review-period-bar,
+.review-overview,
+.review-focus-card,
+.review-writing-grid,
+.settings-data {
+  border-radius: var(--radius-lg);
+}
+
+.goals-layout,
+.review-writing-grid,
+.review-overview,
+.settings-data {
+  overflow: hidden;
+}
+
+.plan-chip,
+.today-focus article,
+.today-hour article,
+.today-untimed span,
+.today-rail article,
+.home-options label,
+.empty-add,
+.goal-node,
+.review-focus-card textarea {
+  border-radius: var(--radius-md);
+}
+
+.period-plan:first-child,
+.planner-toolbar:first-child {
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.backlog-items .plan-chip {
+  min-height: 36px;
+}
+
+/* One restrained press response shared by clickable controls. */
+button,
+a,
+.start-option,
+.home-options label {
+  transition:
+    transform var(--motion-fast) ease,
+    color var(--motion-fast) ease,
+    background-color var(--motion-fast) ease,
+    border-color var(--motion-fast) ease,
+    box-shadow var(--motion-fast) ease;
+}
+
+button:not(:disabled):active,
+.nav-item:active,
+.mobile-nav__item:active,
+.start-option:active,
+.home-options label:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+.ui-button:not(:disabled):active {
+  box-shadow: inset 0 2px 5px rgb(36 49 58 / 16%);
+}
+
+.nav-item:active,
+.mobile-nav__item:active,
+.goal-node__main:active,
+.goal-node__add:active,
+.month-day header button:active,
+.week-day header button:active {
+  color: var(--blue);
+  background-color: #dfeaf1;
+}
+
+.mobile-nav__item {
+  margin: 5px 3px;
+  border-radius: var(--radius-md);
+}
+
+@media (hover: hover) {
+  .goal-node:hover,
+  .home-options label:hover,
+  .today-rail article:hover {
+    background-color: var(--paper-hover);
+  }
+}

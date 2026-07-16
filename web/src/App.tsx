@@ -5,6 +5,7 @@ import { SyncProvider } from './features/sync/SyncProvider'
 import { router } from './app/router'
 import { queryClient } from './lib/queryClient'
 import './App.css'
+import './styles/polish.css'
 
 function App() {
   return (
