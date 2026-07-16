@@ -14,3 +14,11 @@ Thumbs.db
 prototype/qa.cjs
 prototype/qa-*.png
 
+# Web application dependencies and local configuration
+web/node_modules/
+web/dist/
+web/coverage/
+web/playwright-report/
+web/test-results/
+web/.env*
+!web/.env.example

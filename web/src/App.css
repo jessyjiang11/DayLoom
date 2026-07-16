@@ -1,0 +1,52 @@
+#root {
+  min-height: 100vh;
+}
+
+.foundation-page {
+  width: min(720px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 18vh 0 80px;
+}
+
+.eyebrow {
+  margin: 0 0 28px;
+  color: #c4864d;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+
+h1 {
+  max-width: 640px;
+  margin: 0;
+  color: #24313a;
+  font-size: clamp(38px, 7vw, 68px);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.intro {
+  max-width: 520px;
+  margin: 32px 0 56px;
+  color: #6f7a82;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.build-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  padding-top: 18px;
+  border-top: 1px solid #e1e5e8;
+  color: #587895;
+  font-size: 14px;
+}
+
+.build-status span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #5f8974;
+}
