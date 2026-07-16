@@ -13,3 +13,24 @@
 .week-day header button { margin-left: auto; }
 @media (max-width: 900px) { .backlog { grid-template-columns: 100px 1fr; }.backlog > header { grid-column: auto; }.backlog-items { grid-template-columns: repeat(3, minmax(120px, 1fr)); } }
 @media (max-width: 600px) { .backlog { display: grid; grid-template-columns: 1fr; overflow: visible; }.backlog > header { min-width: 0; }.backlog-items { display: flex; overflow-x: auto; }.backlog-items .plan-chip { min-width: 150px; } }
+
+/* Direct creation for coarse weekly and monthly plans. */
+.period-plan { grid-template-columns: 180px minmax(0, 1fr) auto; }
+.period-plan__heading { display: grid; align-content: center; gap: 3px; }
+.period-plan__add {
+  align-self: center;
+  min-height: 34px;
+  padding: 0 13px;
+  color: var(--blue);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.period-plan__add:hover { background: var(--blue-soft); border-color: color-mix(in srgb, var(--blue) 32%, var(--line)); }
+.period-plan__add:active { transform: scale(.97); }
+@media (max-width: 600px) {
+  .period-plan { grid-template-columns: 1fr auto; }
+  .period-plan__items { grid-column: 1/-1; grid-row: 2; }
+}

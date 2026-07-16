@@ -26,4 +26,15 @@ describe('planner scheduling', () => {
     await userEvent.click(screen.getByRole('button', { name: '在7月13日添加任务' }))
     expect(onAdd).toHaveBeenCalledWith('2026-07-13')
   })
+  it('adds a plan directly to the visible week or month', async () => {
+    const onAddToWeek = vi.fn()
+    const onAddToMonth = vi.fn()
+    const { rerender } = render(<DndContext><WeekView referenceDate="2026-07-16" items={[]} onAddToWeek={onAddToWeek} /></DndContext>)
+    await userEvent.click(screen.getByRole('button', { name: '＋ 添加' }))
+    expect(onAddToWeek).toHaveBeenCalledWith('2026-07-13')
+
+    rerender(<DndContext><MonthView referenceDate="2026-07-16" items={[]} onAddToMonth={onAddToMonth} /></DndContext>)
+    await userEvent.click(screen.getByRole('button', { name: '＋ 添加' }))
+    expect(onAddToMonth).toHaveBeenCalledWith('2026-07-16')
+  })
 })

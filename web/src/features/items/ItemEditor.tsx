@@ -8,7 +8,7 @@ import type { ItemCreateInput } from '../../repositories/itemRepository'
 import type { PlanItem } from '../../types/domain'
 
 type EditorValue = ItemCreateInput & { parent_id?: string | null }
-export type InitialSchedule = { granularity: 'day' | 'time'; date: string; time?: string; durationMinutes?: number }
+export type InitialSchedule = { granularity: 'month' | 'week' | 'day' | 'time'; date: string; time?: string; durationMinutes?: number }
 type Props = { open: boolean; item?: PlanItem | null; parentId?: string | null; initialSchedule?: InitialSchedule | null; onClose: () => void; onSave: (value: EditorValue) => Promise<void> }
 
 export function ItemEditor({ open, item, parentId = null, initialSchedule = null, onClose, onSave }: Props) {
@@ -29,9 +29,9 @@ export function ItemEditor({ open, item, parentId = null, initialSchedule = null
     if (!open) return
     setTitle(item?.title ?? '')
     setDescription(item?.description ?? '')
-    setKind(item?.kind ?? (parentId ? 'task' : 'goal'))
+    setKind(item?.kind ?? (parentId || initialSchedule ? 'task' : 'goal'))
     setStatus(item?.status ?? 'todo')
-    setIsActionable(item?.is_actionable ?? (item ? (item.kind === 'project' || item.kind === 'task') : Boolean(parentId)))
+    setIsActionable(item?.is_actionable ?? (item ? (item.kind === 'project' || item.kind === 'task') : Boolean(parentId || initialSchedule)))
     setShowOnHome(item?.show_on_home ?? false)
     setGranularity(item?.schedule_granularity ?? initialSchedule?.granularity ?? null)
     setReference(item?.schedule_date ?? item?.schedule_period_start?.slice(0, 7) ?? initialSchedule?.date ?? '')
