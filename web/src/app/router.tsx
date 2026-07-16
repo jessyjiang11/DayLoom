@@ -4,6 +4,7 @@ import { OnboardingGate } from '../features/onboarding/OnboardingGate'
 import { OnboardingPage } from '../features/onboarding/OnboardingPage'
 import { AppShell } from './AppShell'
 import { RoutePlaceholder } from './RoutePlaceholder'
+import { GoalsPage } from '../features/goals/GoalsPage'
 
 export const router = createHashRouter([
   {
@@ -12,7 +13,7 @@ export const router = createHashRouter([
     children: [
       { index: true, element: <Navigate to="/today" replace /> },
       { path: 'today', element: <RoutePlaceholder kicker="今日" title="今天，慢慢来。" description="先把最重要的一小步完成。" /> },
-      { path: 'goals', element: <RoutePlaceholder kicker="目标" title="目标不是梯子，是方向。" description="把想做的事情放进一棵能随时调整的树。" /> },
+      { path: 'goals', element: <GoalsPage /> },
       { path: 'planner', element: <RoutePlaceholder kicker="计划" title="把以后，放到看得见的地方。" description="先安排到一个大概周期，再慢慢具体到某一天。" /> },
       { path: 'reviews', element: <RoutePlaceholder kicker="复盘" title="看见走过的路。" description="记录发生了什么，也记录自己怎样慢慢成长。" /> },
       { path: 'settings', element: <RoutePlaceholder kicker="设置" title="让这里更像你。" description="管理账户、时间习惯与数据。" /> },
