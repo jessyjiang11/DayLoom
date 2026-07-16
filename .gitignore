@@ -13,6 +13,7 @@ Thumbs.db
 # Local test artifacts
 prototype/qa.cjs
 prototype/qa-*.png
+docs/qa-*.png
 
 # Web application dependencies and local configuration
 web/node_modules/

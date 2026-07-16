@@ -4,8 +4,9 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 import { createSupabaseBrowserClient, SupabaseConfigurationError } from '../../lib/supabase'
-import { AuthProvider, useAuth } from './AuthProvider'
+import { AuthProvider } from './AuthProvider'
 import { ProtectedRoute } from './ProtectedRoute'
+import { useAuth } from './useAuth'
 
 const user = {
   id: '11111111-1111-4111-8111-111111111111',

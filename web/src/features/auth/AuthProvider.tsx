@@ -1,24 +1,7 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react'
-import type { Session, SupabaseClient, User } from '@supabase/supabase-js'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import type { AuthChangeEvent, Session, SupabaseClient } from '@supabase/supabase-js'
 import { tryGetSupabaseClient } from '../../lib/supabase'
-
-type AuthContextValue = {
-  client: SupabaseClient | null
-  session: Session | null
-  user: User | null
-  loading: boolean
-  error: string | null
-  signOut: () => Promise<void>
-}
-
-const AuthContext = createContext<AuthContextValue | null>(null)
+import { AuthContext, type AuthContextValue } from './authContext'
 
 type AuthProviderProps = {
   children: ReactNode
@@ -31,6 +14,7 @@ export function AuthProvider({ children, client: suppliedClient }: AuthProviderP
     [suppliedClient],
   )
   const [session, setSession] = useState<Session | null>(null)
+  const [authEvent, setAuthEvent] = useState<AuthChangeEvent | null>(null)
   const [loading, setLoading] = useState(Boolean(client))
   const [error, setError] = useState<string | null>(
     client ? null : '云端服务尚未配置，暂时无法登录。',
@@ -40,8 +24,9 @@ export function AuthProvider({ children, client: suppliedClient }: AuthProviderP
     if (!client) return
 
     let active = true
-    const { data: { subscription } } = client.auth.onAuthStateChange((_event, nextSession) => {
+    const { data: { subscription } } = client.auth.onAuthStateChange((event, nextSession) => {
       if (!active) return
+      setAuthEvent(event)
       setSession(nextSession)
       setLoading(false)
       setError(null)
@@ -69,18 +54,13 @@ export function AuthProvider({ children, client: suppliedClient }: AuthProviderP
     user: session?.user ?? null,
     loading,
     error,
+    authEvent,
     signOut: async () => {
       if (!client) return
       const { error: signOutError } = await client.auth.signOut({ scope: 'local' })
       if (signOutError) throw signOutError
     },
-  }), [client, error, loading, session])
+  }), [authEvent, client, error, loading, session])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext)
-  if (!context) throw new Error('useAuth 必须在 AuthProvider 内使用')
-  return context
 }
