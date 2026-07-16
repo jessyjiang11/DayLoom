@@ -7,6 +7,7 @@ import { RoutePlaceholder } from './RoutePlaceholder'
 import { GoalsPage } from '../features/goals/GoalsPage'
 import { TodayPage } from '../features/today/TodayPage'
 import { PlannerPage } from '../features/planner/PlannerPage'
+import { ReviewPage } from '../features/reviews/ReviewPage'
 
 export const router = createHashRouter([
   {
@@ -17,7 +18,7 @@ export const router = createHashRouter([
       { path: 'today', element: <TodayPage /> },
       { path: 'goals', element: <GoalsPage /> },
       { path: 'planner', element: <PlannerPage /> },
-      { path: 'reviews', element: <RoutePlaceholder kicker="复盘" title="看见走过的路。" description="记录发生了什么，也记录自己怎样慢慢成长。" /> },
+      { path: 'reviews', element: <ReviewPage /> },
       { path: 'settings', element: <RoutePlaceholder kicker="设置" title="让这里更像你。" description="管理账户、时间习惯与数据。" /> },
     ],
   },
