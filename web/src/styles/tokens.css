@@ -1,6 +1,6 @@
 :root {
-  --font-sans: 'Microsoft YaHei Light', 'Microsoft YaHei', '微软雅黑', sans-serif;
-  --font-regular: 'Microsoft YaHei', '微软雅黑', sans-serif;
+  --font-sans: 'Noto Sans SC', 'Source Han Sans SC', 'Microsoft YaHei', '微软雅黑', sans-serif;
+  --font-regular: 'Noto Sans SC', 'Source Han Sans SC', 'Microsoft YaHei', '微软雅黑', sans-serif;
 
   --ink-strong: #24313a;
   --ink: #48545c;

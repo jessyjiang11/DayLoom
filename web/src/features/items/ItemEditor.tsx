@@ -8,9 +8,10 @@ import type { ItemCreateInput } from '../../repositories/itemRepository'
 import type { PlanItem } from '../../types/domain'
 
 type EditorValue = ItemCreateInput & { parent_id?: string | null }
-type Props = { open: boolean; item?: PlanItem | null; parentId?: string | null; onClose: () => void; onSave: (value: EditorValue) => Promise<void> }
+export type InitialSchedule = { granularity: 'day' | 'time'; date: string; time?: string; durationMinutes?: number }
+type Props = { open: boolean; item?: PlanItem | null; parentId?: string | null; initialSchedule?: InitialSchedule | null; onClose: () => void; onSave: (value: EditorValue) => Promise<void> }
 
-export function ItemEditor({ open, item, parentId = null, onClose, onSave }: Props) {
+export function ItemEditor({ open, item, parentId = null, initialSchedule = null, onClose, onSave }: Props) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [kind, setKind] = useState<PlanItem['kind']>('task')
@@ -18,6 +19,7 @@ export function ItemEditor({ open, item, parentId = null, onClose, onSave }: Pro
   const [granularity, setGranularity] = useState<PlanItem['schedule_granularity']>(null)
   const [reference, setReference] = useState('')
   const [time, setTime] = useState('09:00')
+  const [duration, setDuration] = useState(60)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -27,11 +29,12 @@ export function ItemEditor({ open, item, parentId = null, onClose, onSave }: Pro
     setDescription(item?.description ?? '')
     setKind(item?.kind ?? (parentId ? 'task' : 'goal'))
     setStatus(item?.status ?? 'todo')
-    setGranularity(item?.schedule_granularity ?? null)
-    setReference(item?.schedule_date ?? item?.schedule_period_start?.slice(0, 7) ?? '')
-    setTime(item?.schedule_start_time?.slice(0, 5) ?? '09:00')
+    setGranularity(item?.schedule_granularity ?? initialSchedule?.granularity ?? null)
+    setReference(item?.schedule_date ?? item?.schedule_period_start?.slice(0, 7) ?? initialSchedule?.date ?? '')
+    setTime(item?.schedule_start_time?.slice(0, 5) ?? initialSchedule?.time ?? '09:00')
+    setDuration(item?.duration_minutes ?? initialSchedule?.durationMinutes ?? 60)
     setError(null)
-  }, [item, open, parentId])
+  }, [initialSchedule, item, open, parentId])
 
   async function submit(event: FormEvent) {
     event.preventDefault()
@@ -39,6 +42,7 @@ export function ItemEditor({ open, item, parentId = null, onClose, onSave }: Pro
     let schedule: Partial<PlanItem> = {
       schedule_granularity: granularity, schedule_date: null, schedule_start_time: null,
       schedule_period_start: null, schedule_period_end: null,
+      duration_minutes: granularity === 'time' ? duration : null,
     }
     if (granularity === 'month' && reference) {
       const start = `${reference.slice(0, 7)}-01`
@@ -72,7 +76,7 @@ export function ItemEditor({ open, item, parentId = null, onClose, onSave }: Pro
           {granularity === 'month' && <Field label="选择月份" type="month" value={reference.slice(0, 7)} onChange={(event) => setReference(event.target.value)} />}
           {granularity === 'week' && <Field label="选择这一周中的任意一天" type="date" value={reference.length === 10 ? reference : ''} onChange={(event) => setReference(event.target.value)} />}
           {granularity === 'day' && <Field label="选择日期" type="date" value={reference.length === 10 ? reference : ''} onChange={(event) => setReference(event.target.value)} />}
-          {granularity === 'time' && <div className="item-editor__pair"><Field label="选择日期" type="date" value={reference.length === 10 ? reference : ''} onChange={(event) => setReference(event.target.value)} /><Field label="开始时间" type="time" value={time} onChange={(event) => setTime(event.target.value)} /></div>}
+          {granularity === 'time' && <><div className="item-editor__pair"><Field label="选择日期" type="date" value={reference.length === 10 ? reference : ''} onChange={(event) => setReference(event.target.value)} /><Field label="开始时间" type="time" value={time} onChange={(event) => setTime(event.target.value)} /></div><Field label="预计分钟" type="number" min={15} max={1440} step={15} value={duration} onChange={(event) => setDuration(Number(event.target.value))} /></>}
         </fieldset>
         {error && <p className="item-editor__error" role="alert">{error}</p>}
       </form>

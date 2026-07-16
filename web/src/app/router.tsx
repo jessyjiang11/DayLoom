@@ -3,23 +3,24 @@ import { LazyAuthPage, LazyResetPasswordPage } from '../features/auth/LazyAuthPa
 import { OnboardingGate } from '../features/onboarding/OnboardingGate'
 import { OnboardingPage } from '../features/onboarding/OnboardingPage'
 import { AppShell } from './AppShell'
-import { RoutePlaceholder } from './RoutePlaceholder'
 import { GoalsPage } from '../features/goals/GoalsPage'
 import { TodayPage } from '../features/today/TodayPage'
 import { PlannerPage } from '../features/planner/PlannerPage'
 import { ReviewPage } from '../features/reviews/ReviewPage'
+import { SettingsPage } from '../features/settings/SettingsPage'
+import { HomeRedirect } from './HomeRedirect'
 
 export const router = createHashRouter([
   {
     path: '/',
     element: <OnboardingGate><AppShell /></OnboardingGate>,
     children: [
-      { index: true, element: <Navigate to="/today" replace /> },
+      { index: true, element: <HomeRedirect /> },
       { path: 'today', element: <TodayPage /> },
       { path: 'goals', element: <GoalsPage /> },
       { path: 'planner', element: <PlannerPage /> },
       { path: 'reviews', element: <ReviewPage /> },
-      { path: 'settings', element: <RoutePlaceholder kicker="设置" title="让这里更像你。" description="管理账户、时间习惯与数据。" /> },
+      { path: 'settings', element: <SettingsPage /> },
     ],
   },
   { path: '/onboarding', element: <OnboardingPage /> },

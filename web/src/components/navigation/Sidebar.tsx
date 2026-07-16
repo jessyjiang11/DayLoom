@@ -6,7 +6,7 @@ import { navigationItems } from './navigation'
 export function Sidebar({ syncState }: { syncState: SyncState }) {
   return (
     <aside className="app-sidebar">
-      <a className="app-brand" href="#/today" aria-label="不秃首页">
+      <a className="app-brand" href="#/" aria-label="不秃首页">
         <span className="app-brand__seal">不</span>
         <span><strong>不秃</strong><small>DayLoom</small></span>
       </a>

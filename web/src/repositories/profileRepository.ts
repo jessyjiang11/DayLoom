@@ -11,6 +11,15 @@ export const onboardingInputSchema = z.object({
 
 export type OnboardingInput = z.infer<typeof onboardingInputSchema>
 
+export const homePageSchema = z.enum(['today', 'goals', 'planner', 'reviews'])
+export const profileSettingsSchema = z.object({
+  displayName: z.string().trim().min(1, '请写下怎么称呼你').max(60),
+  timezone: z.string().trim().min(1),
+  weekStartsOn: z.number().int().min(0).max(6),
+  homePage: homePageSchema,
+})
+export type ProfileSettingsInput = z.infer<typeof profileSettingsSchema>
+
 export async function getProfile(client: SupabaseClient, userId: string): Promise<Profile> {
   const { data, error } = await client.from('profiles').select('*').eq('user_id', userId).single()
   if (error) throw error
@@ -43,4 +52,21 @@ export async function createSampleWorkspace(client: SupabaseClient): Promise<boo
   const { data, error } = await client.rpc('create_sample_workspace')
   if (error) throw error
   return z.boolean().parse(data)
+}
+
+export function getHomePage(profile: Profile) {
+  const parsed = homePageSchema.safeParse(profile.preferences.home_page)
+  return parsed.success ? parsed.data : 'today'
+}
+
+export async function updateProfileSettings(client: SupabaseClient, userId: string, profile: Profile, input: ProfileSettingsInput): Promise<Profile> {
+  const value = profileSettingsSchema.parse(input)
+  const { data, error } = await client.from('profiles').update({
+    display_name: value.displayName,
+    timezone: value.timezone,
+    week_starts_on: value.weekStartsOn,
+    preferences: { ...profile.preferences, home_page: value.homePage },
+  }).eq('user_id', userId).select('*').single()
+  if (error) throw error
+  return profileSchema.parse(data)
 }

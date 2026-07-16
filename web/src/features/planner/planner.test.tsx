@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+import userEvent from '@testing-library/user-event'
 import { DndContext } from '@dnd-kit/core'
 import type { PlanItem } from '../../types/domain'
 import { MonthView } from './MonthView'
@@ -18,5 +19,11 @@ describe('planner scheduling', () => {
     const { rerender } = render(<DndContext><WeekView referenceDate="2026-07-16" items={[item]} /></DndContext>)
     expect(screen.getByLabelText('本周计划')).toHaveTextContent('写周计划'); expect(screen.getByText('本周重点')).toBeInTheDocument()
     rerender(<DndContext><MonthView referenceDate="2026-07-16" items={[]} /></DndContext>); expect(screen.getByLabelText('本月计划')).toBeInTheDocument()
+  })
+  it('adds a task by clicking a date', async () => {
+    const onAdd = vi.fn()
+    render(<DndContext><WeekView referenceDate="2026-07-16" items={[]} onAdd={onAdd} /></DndContext>)
+    await userEvent.click(screen.getByRole('button', { name: '在7月13日添加任务' }))
+    expect(onAdd).toHaveBeenCalledWith('2026-07-13')
   })
 })
