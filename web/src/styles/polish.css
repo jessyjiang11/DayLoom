@@ -81,6 +81,26 @@ button:not(:disabled):active,
   border-radius: var(--radius-md);
 }
 
+/* Segmented period switches use the same soft geometry as the cards. */
+.review-type-tabs,
+.view-tabs {
+  gap: 3px;
+  padding: 3px;
+  background: var(--paper-subtle);
+  border-radius: var(--radius-md);
+}
+
+.review-type-tabs button,
+.view-tabs button {
+  border-radius: 8px;
+}
+
+.review-period-bar button,
+.planner-toolbar button,
+.day-board > header button {
+  border-radius: var(--radius-sm);
+}
+
 @media (hover: hover) {
   .goal-node:hover,
   .home-options label:hover,
