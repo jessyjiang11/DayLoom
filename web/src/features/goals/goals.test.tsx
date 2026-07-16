@@ -21,6 +21,8 @@ describe('ItemEditor', () => {
   it('shows the calendar control that matches schedule granularity', async () => {
     render(<ItemEditor open onClose={() => {}} onSave={vi.fn()} />)
     await userEvent.click(screen.getByLabelText('某个月')); expect(screen.getByLabelText('选择月份')).toHaveAttribute('type', 'month')
+    expect(screen.queryByLabelText('具体时间')).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('checkbox', { name: /作为执行项/ }))
     await userEvent.click(screen.getByLabelText('具体时间')); expect(screen.getByLabelText('开始时间')).toHaveAttribute('type', 'time')
   })
 })

@@ -21,7 +21,7 @@ export function PlannerPage() {
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'))
   const [editorSchedule, setEditorSchedule] = useState<InitialSchedule | null>(null)
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }), useSensor(TouchSensor, { activationConstraint: { delay: 180, tolerance: 6 } }), useSensor(KeyboardSensor))
-  const unscheduled = items.filter((item) => !item.schedule_granularity && item.status !== 'done')
+  const unscheduled = items.filter((item) => item.is_actionable && !item.schedule_granularity && item.status !== 'done')
   const step = (amount: number) => setDate(format(view === 'month' ? addMonths(parseISO(date), amount) : addDays(parseISO(date), amount * (view === 'week' ? 7 : 1)), 'yyyy-MM-dd'))
 
   async function dragEnd(event: DragEndEvent) {

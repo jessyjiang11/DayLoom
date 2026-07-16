@@ -14,6 +14,7 @@ export const itemKeys = {
 
 export type ItemCreateInput = Pick<PlanItem, 'kind' | 'title'> & Partial<Pick<PlanItem,
   'parent_id' | 'description' | 'status' | 'sort_order' | 'is_important' | 'is_focus' |
+  'is_actionable' | 'show_on_home' |
   'schedule_granularity' | 'schedule_date' | 'schedule_start_time' | 'schedule_period_start' |
   'schedule_period_end' | 'duration_minutes'>>
 

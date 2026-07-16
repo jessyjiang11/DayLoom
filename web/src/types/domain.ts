@@ -22,7 +22,7 @@ export const profileSchema = z.object({
   updated_at: timestamp,
 })
 
-export const planItemSchema = z.object({
+const planItemRowSchema = z.object({
   id: uuid,
   user_id: uuid,
   parent_id: uuid.nullable(),
@@ -33,6 +33,8 @@ export const planItemSchema = z.object({
   sort_order: z.number(),
   is_important: z.boolean(),
   is_focus: z.boolean(),
+  is_actionable: z.boolean().optional(),
+  show_on_home: z.boolean().optional(),
   schedule_granularity: scheduleGranularitySchema.nullable(),
   schedule_date: dateOnly.nullable(),
   schedule_start_time: timeOnly.nullable(),
@@ -44,6 +46,12 @@ export const planItemSchema = z.object({
   created_at: timestamp,
   updated_at: timestamp,
 })
+
+export const planItemSchema = planItemRowSchema.transform((item) => ({
+  ...item,
+  is_actionable: item.is_actionable ?? (item.kind === 'project' || item.kind === 'task'),
+  show_on_home: item.show_on_home ?? false,
+}))
 
 export const scheduleChangeSchema = z.object({
   id: uuid,
