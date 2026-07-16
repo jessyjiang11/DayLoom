@@ -61,6 +61,29 @@ export async function archiveItem(client: SupabaseClient, userId: string, itemId
   if (error) throw error
 }
 
+const scheduleFields = ['schedule_granularity', 'schedule_date', 'schedule_start_time', 'schedule_period_start', 'schedule_period_end'] as const
+export type ScheduleUpdate = Pick<PlanItem, typeof scheduleFields[number]>
+
+export async function rescheduleItem(
+  client: SupabaseClient,
+  userId: string,
+  item: PlanItem,
+  schedule: ScheduleUpdate,
+  reason: string | null = null,
+): Promise<PlanItem> {
+  const fromSchedule = Object.fromEntries(scheduleFields.map((field) => [field, item[field]]))
+  const updated = await updateItem(client, userId, item.id, schedule)
+  const { error } = await client.from('schedule_changes').insert({
+    user_id: userId,
+    item_id: item.id,
+    from_schedule: fromSchedule,
+    to_schedule: schedule,
+    reason,
+  })
+  if (error) throw error
+  return updated
+}
+
 export function beginOptimisticItemUpdate(
   queryClient: QueryClient,
   userId: string,
