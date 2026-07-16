@@ -2,11 +2,12 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { itemKeys } from '../../repositories/itemRepository'
 import { periodNoteKeys, reviewKeys } from '../../repositories/reviewRepository'
+import { subscribeToWorkspace } from '../../repositories/realtimeRepository'
 import { useAuth } from '../auth/useAuth'
 import { SyncContext, type SyncState } from './syncContext'
 
 export function SyncProvider({ children }: { children: ReactNode }) {
-  const { user } = useAuth()
+  const { client, user } = useAuth()
   const queryClient = useQueryClient()
   const [state, setState] = useState<SyncState>(() => navigator.onLine ? 'saved' : 'offline')
 
@@ -31,6 +32,19 @@ export function SyncProvider({ children }: { children: ReactNode }) {
       window.removeEventListener('online', handleOnline)
     }
   }, [queryClient, user])
+
+  useEffect(() => {
+    if (!client || !user || !navigator.onLine) return
+    return subscribeToWorkspace({
+      client,
+      userId: user.id,
+      queryClient,
+      onState: (nextState) => {
+        if (nextState === 'connected') setState('saved')
+        else setState(nextState)
+      },
+    })
+  }, [client, queryClient, user])
 
   const value = useMemo(() => ({
     state,
